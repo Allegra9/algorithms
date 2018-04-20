@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+
+<title>Algorithms</title>
+    
+<!--Google Fonts-->
+<link href="https://fonts.googleapis.com/css?family=Allura" rel="stylesheet">
+    
+<!--Style sheet -->
+<link href="style.css" rel="stylesheet" type="text/css">
+    
+<!--1.LINK FOR BOOTSTRAP--> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    
+<!--2.LINK FOR ICONS-->   
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+</head>
+<body>
+
+<div class="container">
+
+<h3 class="text-center">Algorithms</h3>
+
+<figure>
+	<figurecaption><h5>Reverse a string:</h5></figurecaption>
+	<pre>
+		<code>
+function reverseString(str) {
+  return str.split('').reverse().join('');
+}
+
+reverseString("hello");  //"olleh"
+reverseString("Howdy");  //"ydwoH"
+reverseString("Greetings from Earth");  
+//"htraE morf sgniteerG"
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Factorialize a number:</h5>
+		<p>Return the factorial of the provided integer. If the integer is represented with the letter n, a factorial is the product of all positive integers less than or equal to n. Factorials are often represented with the shorthand notation n! 
+	For example: 5! = 1 * 2 * 3 * 4 * 5 = 120</p>
+	</figurecaption>
+	<pre>
+		<code>
+function factorialize(num) { 
+	for (a = 1; num >= 1; num--) { 
+	a = num * a; 
+ } 
+	return a; 
+} 
+
+factorialize(5);  // 120
+factorialize(10);  // 3628800
+factorialize(0);  // 1
+factorialize(20); // 2432902008176640000
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Check for Palindromes:</h5>
+		<p>Return true if the given string is a palindrome. Otherwise, return false. A palindrome is a word or sentence that's spelled the same way both forward and backward, ignoring punctuation, case, and spacing.</p><p><b>Note:</b><br>You'll need to remove all non-alphanumeric characters (punctuation, spaces and symbols) and turn everything lower case in order to check for palindromes. We'll pass strings with varying formats, such as "racecar", "RaceCar", and "race CAR" among others. We'll also pass strings with special symbols, such as "2A3*3a2", "2A3 3a2", and "2_A3*3#A2"</p>
+	</figurecaption>
+	<pre>
+		<code>
+function palindrome(str) {
+
+  return str.replace(/[\W_]/g, '').toLowerCase() ===
+         str.replace(/[\W_]/g, '').toLowerCase().split('').reverse().join('');
+}
+
+palindrome("eye"); //true
+palindrome("_eye"); //true
+palindrome("race car"); //true
+palindrome("A man, a plan, a canal. Panama"); //true
+palindrome("nope"); //false
+palindrome("five|\_/|four");  //false
+palindrome("0_0 (: /-\ :) 0-0");  //true
+palindrome("My age is 0, 0 si ega ym.");  //true
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Find the Longest Word in a String:</h5>
+		<p>Return the length of the longest word in the provided sentence. Your response should be a number.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function findLongestWord(str) {
+    var splits = str.split(" "); //this makes an array
+    var maxLength = 0;
+    
+    for (var i = 0; i < splits.length; i++) {
+        if (splits[i].length > maxLength) {
+            maxLength = splits[i].length;
+        }
+    }
+    return maxLength;
+}
+
+findLongestWord("The quick brown fox jumped over the lazy dog"); //6
+findLongestWord("What if we try a super-long word such as otorhinolaryngology"); //19
+		</code>
+	</pre>
+	<br>
+
+
+	<p><b>+</b> Using <b>.reduce()</b></p>
+	</figurecaption>
+	<pre>
+		<code>
+function findLongestWord(s) {
+  return s.split(' ')
+    .reduce(function(x, y) {
+      return Math.max(x, y.length)
+    }, 0);
+}
+
+findLongestWord("The quick brown fox jumped over the lazy dog"); //6
+findLongestWord("What if we try a super-long word such as otorhinolaryngology"); //19
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Title Case a Sentence:</h5>
+		<p>Return the provided string with the first letter of each word capitalized. Make sure the rest of the word is in lower case. For the purpose of this exercise, you should also capitalize connecting words like "the" and "of".</p>
+	</figurecaption>
+	<pre>
+		<code>
+function titleCase(str) {
+  str = str.toLowerCase();
+  
+  str = str.split(' ');
+  
+  for (var i = 0; i < str.length; i++) {
+    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
+  }
+  return str.join(" ");
+}
+
+titleCase("I'm a little tea pot");  //"I'm A Little Tea Pot"
+titleCase("sHoRt AnD sToUt");  //"Short And Stout"
+titleCase("HERE IS MY HANDLE HERE IS MY SPOUT"); //"Here Is My Handle Here Is My Spout"
+		</code>
+	</pre>
+	<br>
+
+
+	<p><b>+ solution:</b></p>
+	<pre>
+		<code>
+function titleCase(str) {
+  return str.toLowerCase().replace(/(^|\s)\S/g, (L) => L.toUpperCase());
+}
+
+titleCase("I'm a little tea pot");  //"I'm A Little Tea Pot"
+titleCase("sHoRt AnD sToUt");  //"Short And Stout"
+titleCase("HERE IS MY HANDLE HERE IS MY SPOUT"); //"Here Is My Handle Here Is My Spout"
+		</code>
+	</pre>
+	<p><b>Code Explanation: </b>The solution works by first lowercasing all the characters in the string and then only uppercasing the first character of each word.
+	  <ul>
+		<li>Lowercase the whole string using str.toLowerCase().</li>
+		<li>Replace every word’s first character to uppercase using .replace.</li>
+		<li>Search for character at the beginning of each word i.e. matching any character following a space or matching the first character of the whole string, by using the following pattern.</li>
+		<br>
+		<b>Regex explanation: </b><br>
+		<li>Find all non-whitespace characters (\S)</li>
+		<li>At the beginning of string (^)</li>
+		<li>Or after any whitespace character (\s)</li>
+		<li>The g modifier searches for other such word pattern in the whole string and replaces them.</li>
+	  </ul>
+	</p>
+	<br>
+
+
+	<figurecaption><h5>Return Largest Numbers in Arrays:</h5>
+		<p>Return an array consisting of the largest number from each provided sub-array. For simplicity, the provided array will contain exactly 4 sub-arrays. Remember, you can iterate through an array with a simple for loop, and access each member with array syntax arr[i].</p>
+	</figurecaption>
+	<pre>
+		<code>
+function largestOfFour(arr) {
+   var newArr = [];
+    
+  for (var i = 0; i < arr.length; i++) {
+		var maximum = -Infinity;
+      for (var m = 0; m < arr[i].length; m++)
+        if (arr[i][m] > maximum)
+            maximum = arr[i][m];
+      newArr.push(maximum);
+  }
+  return newArr;
+}
+
+largestOfFour([[4, 5, 1, 3], [13, 27, 18, 26], [32, 35, 37, 39], [1000, 1001, 857, 1]]);
+//[5, 27, 39, 1001]
+		</code>
+	</pre>
+	<br>
+
+
+	<p><b>+ solution:</b></p>
+	<pre>
+		<code>
+function largestOfFour(arr) {
+  return arr.map(function(group){
+    return group.reduce(function(prev, current) {
+      return (current > prev) ? current : prev;
+    });
+  });
+}
+
+largestOfFour([[4, 5, 1, 3], [13, 27, 18, 26], [32, 35, 37, 39], [1000, 1001, 857, 1]]);  
+//[5, 27, 39, 1001]
+		</code>
+	</pre>
+	<p><b>Code Explanation: </b>
+	  <ul>
+		<li>We map all items within the main array to a new array using Array.prototype.map() and return this array as the final result.</li>
+		<li>Within each inner array, we reduce its contents down to a single value using Array.prototype.reduce()</li>
+		<li>The callback function passed to the reduce method takes the previous value and the current value and compares the two values</li>
+		<li>If the current value is higher than the previous value we set it as the new previous value for comparison with the next item within the array or returns it to the map method callback if it’s the last item.</li>
+	  </ul>
+	</p>
+	<br>
+
+
+	<figurecaption><h5>Confirm the Ending:</h5>
+		<p>Check if a string (first argument, str) ends with the given target string (second argument, target). <br>This challenge can be solved with the .endsWith() method, which was introduced in ES2015. But for the purpose of this challenge, we would like you to use one of the JavaScript substring methods instead.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function confirmEnding(str, target) {
+ 
+  newStr = str.substr(-target.length);
+  
+  return target === newStr;
+}
+
+confirmEnding("Bastian", "n");  //true
+confirmEnding("He has to give me a new name", "name");  //true
+confirmEnding("Open sesame", "same");  //true
+confirmEnding("Open sesame", "pen");  //false
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Repeat a string repeat a string:</h5>
+		<p>Repeat a given string (first argument) num times (second argument). Return an empty string if num is not a positive number.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function repeatStringNumTimes(str, num) {
+  if (num < 0) {
+        return "";
+    }
+  return str.repeat(num);
+}
+
+repeatStringNumTimes("abc", 3);  //abcabcabc
+repeatStringNumTimes("*", 8);  //********
+repeatStringNumTimes("abc", -2);  //""
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Truncate a string:</h5>
+		<p>Truncate a string (first argument) if it is longer than the given maximum string length (second argument). Return the truncated string with a ... ending. <br>Note that inserting the three dots to the end will add to the string length. <br>However, if the given maximum string length num is less than or equal to 3, then the addition of the three dots does not add to the string length in determining the truncated string.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function truncateString(str, num) {
+
+  if (str.length > num && num > 3) {
+    return str.slice(0, (num - 3)) + '...';
+  } else if (str.length > num && num <= 3) {
+    return str.slice(0, num) + '...';
+  } else {
+    return str;
+  }
+}
+
+truncateString("A-tisket a-tasket A green and yellow basket", 11); //"A-tisket..."
+truncateString("Absolutely Longer", 2);  //"Ab..."
+truncateString("A-", 1);  //"A..."
+truncateString("Peter Piper picked a peck of pickled peppers", 14);  //"Peter Piper..."
+		</code>
+	</pre>
+	<br>
+
+
+	<p><b>+ ternary solution:</b></p>
+	<pre>
+		<code>
+function truncateString(str, num) {
+  if (str.length > num)
+    return str.slice(0, num > 3 ? num-3 : num) + '...';
+  return str;
+}
+
+truncateString("Absolutely Longer", 2);  //"Ab..."
+truncateString("A-", 1);  //"A..."
+		</code>
+	</pre>
+	<p><b>Code Explanation: </b><br>In order to understand the above code, you need to understand how a Ternary Operator works. The Ternary Operator is frequently used as a shortcut for the if statement and follows this format:<br><b>condition ? expr1 : expr2</b><br>If the condition evaluates to true, the operator returns the value of expr1. Otherwise, it returns the value of expr2.
+	</p>
+	<br>
+
+
+	<figurecaption><h5>Chunky Monkey:</h5>
+		<p>Write a function that splits an array (first argument) into groups the length of size (second argument) and returns them as a two-dimensional array.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function chunkArrayInGroups(arr, size) {
+  var newArr = [];
+  var i = 0;
+
+  while (i < arr.length) {
+    newArr.push(arr.slice(i, i+size));
+    i += size;
+  }
+  return newArr;
+}
+console.log(chunkArrayInGroups(["a", "b", "c", "d"], 2));  //["a", "b"]["c", "d"]
+chunkArrayInGroups([0, 1, 2, 3, 4, 5, 6], 3);  //[0, 1, 2][3, 4, 5][6]
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Slasher Flick:</h5>
+		<p>Return the remaining elements of an array after chopping off n elements from the beginning of the array, or the zeroth index.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function slasher(arr, howMany) {
+  
+    arr.splice(0,howMany);
+  
+  return arr;
+}
+
+slasher([1, 2, 3], 2);  //[3]
+slasher([1, 2, 3], 9); //[]
+slasher(["burgers", "fries", "shake"], 1);  //["fries", "shake"]
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Slasher Flick:</h5>
+		<p>Return the remaining elements of an array after chopping off n elements from the beginning of the array, or the zeroth index.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function slasher(arr, howMany) {
+    arr.splice(0,howMany);
+  return arr;
+}
+
+OR:
+
+function slasher(arr, howMany) {
+    return arr.slice(howMany);
+}
+
+slasher([1, 2, 3], 2);  //[3]
+slasher([1, 2, 3], 9); //[]
+slasher(["burgers", "fries", "shake"], 1);  //["fries", "shake"]
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Mutations:</h5>
+		<p>Return true if the string in the first element of the array contains all of the letters of the string in the second element of the array.<br>For example, ["hello", "Hello"], should return true because all of the letters in the second string are present in the first, ignoring case.<br>The arguments ["hello", "hey"] should return false because the string "hello" does not contain a "y".<br>Lastly, ["Alien", "line"], should return true because all of the letters in "line" are present in "Alien".</p>
+	</figurecaption>
+	<pre>
+		<code>
+function mutation(arr) {
+  var test = arr[1].toLowerCase();
+  var target = arr[0].toLowerCase();
+  for (i=0; i < test.length;i++) {
+    if (target.indexOf(test[i]) === -1)
+      return false;
+  }
+  return true;
+ }
+
+mutation(["zyxwvutsrqponmlkjihgfedcba", "qrstu"]);  //true
+mutation(["Mary", "Army"]);  //true
+mutation(["Mary", "Aarmy"]);  //true
+mutation(["hello", "neo"]);  //false
+		</code>
+	</pre>
+	<p><b>Code Explanation: </b><br>First we make the two strings in the array lowercase. Test will hold what we are looking for in target. Then we loop through our test characters and if any of them is not found we return false. If they are all found, the loop will finish without returning anything and we get to return true.
+	</p>
+	<br>
+
+
+	<p><b>+ solution:</b></p>
+	<pre>
+		<code>
+function mutation(arr) {
+  return arr[1].toLowerCase()
+    .split('')
+    .every(function(letter) {
+      return arr[0].toLowerCase()
+        .indexOf(letter) !== -1;
+    });
+}
+
+mutation(["Mary", "Army"]);  //true
+mutation(["Mary", "Aarmy"]);  //true
+mutation(["hello", "neo"]);  //false
+		</code>
+	</pre>
+	<p><b>Code Explanation: </b><BR>Grab the second string, lowercase and turn it into an array; then make sure every one of its letters is a part of the lowercased first string. Every will basically give you letter by letter to compare, which we do by using indexOf on the first string. indexOf will give you -1 if the current letter is missing. We check that not to be the case, for if this happens even once every will be false.
+	</p>
+	<br>
+
+
+
+</figure>
+
+
+</div>
+
+<!--SCRIPT LINKS END OF BODY-->  
+    
+<!--4.jQuery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- for draggable: -->
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+    
+<!-- JAVASCRIPT -->
+<script src="script.js"></script>
+
+<!--5.this one for TETHER.IO-->
+<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    
+<!--6.JS for BOOTSTRAP-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+</body>
+</html>
