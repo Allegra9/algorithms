@@ -781,11 +781,241 @@ function SimpleAdding(num) {
 	return a; 
 } 
 
-console.log(SimpleAdding(12));
-console.log(SimpleAdding(140));                          
+console.log(SimpleAdding(5));  //15   5+4+3+2+1 = 15
+console.log(SimpleAdding(12));  //78
+console.log(SimpleAdding(140)); //9870                     
 		</code>
 	</pre>
 	<br>
+
+
+	<figurecaption><h5>+ solution:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+function SimpleAdding2(num) { 
+
+  var answer = 0;
+
+  // loop from 1 to num
+  for (var i = 1; i <= num; i++) {
+    answer = answer + i;
+  } 
+  return answer;    
+}
+
+console.log(SimpleAdding2(4));  //10   4+3+2+1 = 10                                                      
+console.log(SimpleAdding2(12));  //78
+console.log(SimpleAdding2(140));  //9870                    
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>+ solution:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+function SimpleAdding3(num) { 
+
+  return (num*(num+1))/2;      
+}
+
+console.log(SimpleAdding3(4));  //10
+console.log(SimpleAdding3(140));  //9870                   
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Letter Capitalize:</h5>
+		<p>Take the str parameter being passed and capitalize the first letter of each word. Words will be separated by only one space. 
+		</p>
+	</figurecaption>
+	<pre>
+		<code>
+function LetterCapitalize(str) { 
+
+	str = str.split(' ');
+  
+  for (var i = 0; i < str.length; i++) {
+    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
+  }
+  return str.join(" ");
+}
+  
+console.log(LetterCapitalize("hello world")); //Hello World
+console.log(LetterCapitalize("i ran there"));  //I Ran There                    
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>+ solution:</h5>
+		<p>need to check the regex</p>
+	</figurecaption>
+	<pre>
+		<code>
+function SimpleSymbols(str) { 
+
+  var str = '=' + str + '=';  //just adding extra characters in front and at the end of the str
+
+  for (var i = 0; i < str.length; i++) {
+    
+    if (str[i].match(/[a-z]/i) !== null) {
+
+      if (str[i-1] !== '+' || str[i+1] !== '+') { 
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+console.log(SimpleSymbols("+d+=3=+s+"));
+console.log(SimpleSymbols("f++d+"));                  
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>+ solution:</h5>
+		<p>need to check the regex</p>
+	</figurecaption>
+	<pre>
+		<code>
+function SimpleSymbols2(str) { 
+
+  if (/^[a-zA-Z]/.test(str) || /[a-zA-Z]$/.test(str)) {
+      return false;
+  }
+  else if (/[^+][a-zA-Z]/.test(str) || /[a-zA-Z][^+]/.test(str)) {
+      return false;
+  }
+  else {
+   return true; 
+  } 
+       
+}
+console.log(SimpleSymbols2("+d+=3=+s+"));
+console.log(SimpleSymbols2("f++d+"));                   
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Check Nums:</h5>
+		<p>Check if num2 is bigger than num1, if so return true, otherwise false. If numbers are equal, return "-1".</p>
+	</figurecaption>
+	<pre>
+		<code>
+function CheckNums2(num1,num2) { 
+
+  if (num1 == num2) {
+     return "-1"; 
+  }
+  else {
+    return (num2 > num1);  //true or false 
+  }     
+}
+console.log(CheckNums2(3, 122));
+console.log(CheckNums2(67, 67));                  
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Time Convert:</h5>
+		<p>Convert minutes num to "hours : mins"</p>
+	</figurecaption>
+	<pre>
+		<code>
+function TimeConvert(num) { 
+  var hours = Math.floor(num/60);
+  var minutes = num % 60;
+  var str = hours + ":" + minutes;
+  return str;
+}
+
+console.log(TimeConvert(126));  //2:6
+console.log(TimeConvert(45));	//0:45
+console.log(TimeConvert(450));	//7:30                 
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>+ improved style:</h5>
+		<p>Added "0" if minutes < 10</p>
+	</figurecaption>
+	<pre>
+		<code>
+function TimeConvert(num) { 
+  var hours = Math.floor(num/60);
+  var minutes = num % 60;
+  var str = hours + ":" + minutes;
+   	if (minutes < 10){
+  		return hours + ":" + "0" + minutes;
+  	}else {
+  return str;
+ }
+}
+
+console.log(TimeConvert(126));  //2:06
+console.log(TimeConvert(45));	//0:45
+console.log(TimeConvert(450));	//7:30
+console.log(TimeConvert(850));	//14:10  
+console.log(TimeConvert(7));	//0:07              
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Alphabet Soup:</h5>
+		<p>Sort a string alphabetically.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function AlphabetSoup(str) { 
+
+	return str.split('').sort().join('');
+	//convert str to array, sort, convert back to string
+}
+console.log(AlphabetSoup("coderbyte"));  //"bcdeeorty"
+console.log(AlphabetSoup("hooplah"));  //"ahhloop"            
+		</code>
+	</pre>
+	<br>
+
+
+
+
+<h4>FREECODECAMP "ADVANCED":</h4>
+
+
+	<figurecaption><h5>Validate US Telephone Numbers:</h5>
+		<p>Return true if the passed string is a valid US phone number. The user may fill out the form field any way they choose as long as it is a valid US number. The following are examples of valid formats for US numbers (refer to the tests below for other variants):
+	</figurecaption>
+	<pre>
+		<code>
+555-555-5555
+(555)555-5555
+(555) 555-5555
+555 555 5555
+5555555555
+1 555 555 5555
+		</code>
+	</pre>
+For this challenge you will be presented with a string such as 800-692-7753 or 8oo-six427676;laskdjf. Your job is to validate or reject the US phone number based on any combination of the formats provided above. The area code is required. If the country code is provided, you must confirm that the country code is 1. Return true if the string is a valid US phone number; otherwise return false.</p>
+	</figurecaption>
+	<pre>
+		<code>
+          
+		</code>
+	</pre>
+	<br>
+
+
 
 
 
