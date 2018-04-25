@@ -63,6 +63,31 @@ factorialize(20); // 2432902008176640000
 	</pre>
 	<br>
 
+		<figurecaption><h5>+ solution</h5>
+	</figurecaption>
+	<pre>
+		<code>
+function FirstFactorial(num) { 
+
+  var factorial = 1;
+
+  for (var i = 1; i <= num; i++) {  
+    // multiply each number between 1 and num  
+    // factorial = 1 * 1 = 1
+    // factorial = 1 * 2 = 2
+    // factorial = 2 * 3 = 6
+    // factorial = 6 * 4 = 24
+    // ...
+    factorial = factorial * i;
+  }
+  return factorial;  
+}
+   
+console.log(FirstFactorial(5)); //5*4*3*2*1 = 120
+		</code>
+	</pre>
+	<br>
+
 
 	<figurecaption><h5>Check for Palindromes:</h5>
 		<p>Return true if the given string is a palindrome. Otherwise, return false. A palindrome is a word or sentence that's spelled the same way both forward and backward, ignoring punctuation, case, and spacing.</p><p><b>Note:</b><br>You'll need to remove all non-alphanumeric characters (punctuation, spaces and symbols) and turn everything lower case in order to check for palindromes. We'll pass strings with varying formats, such as "racecar", "RaceCar", and "race CAR" among others. We'll also pass strings with special symbols, such as "2A3*3a2", "2A3 3a2", and "2_A3*3#A2"</p>
@@ -426,14 +451,347 @@ mutation(["Mary", "Aarmy"]);  //true
 mutation(["hello", "neo"]);  //false
 		</code>
 	</pre>
-	<p><b>Code Explanation: </b><BR>Grab the second string, lowercase and turn it into an array; then make sure every one of its letters is a part of the lowercased first string. Every will basically give you letter by letter to compare, which we do by using indexOf on the first string. indexOf will give you -1 if the current letter is missing. We check that not to be the case, for if this happens even once every will be false.
+	<p><b>Code Explanation: </b><br>Grab the second string, lowercase and turn it into an array; then make sure every one of its letters is a part of the lowercased first string. Every will basically give you letter by letter to compare, which we do by using indexOf on the first string. indexOf will give you -1 if the current letter is missing. We check that not to be the case, for if this happens even once every will be false.
 	</p>
 	<br>
 
 
+	<figurecaption><h5>Falsy Bouncer:</h5>
+		<p>Remove all falsy values from an array.<br>Falsy values in JavaScript are <b>false, null, 0, "", undefined, and NaN.</b></p>
+	</figurecaption>
+	<pre>
+		<code>
+function bouncer(arr) {
+
+ return arr.filter(Boolean);
+}
+
+bouncer([7, "ate", "", false, 9]);  //[7, "ate", 9]
+bouncer([false, null, 0, NaN, undefined, ""]);  //[]
+bouncer([1, null, NaN, 2, undefined]);  //[1, 2]
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Seek and Destroy:</h5>
+		<p>You will be provided with an initial array (the first argument in the destroyer function), followed by one or more arguments. Remove all elements from the initial array that are of the same value as these arguments.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function destroyer(arr) {
+  var args = Array.prototype.slice.call(arguments);
+
+  for (var i = 0; i < arr.length; i++) {
+    for (var j = 0; j < args.length; j++) {
+      if (arr[i] === args[j]) {
+        delete arr[i];
+      }
+    }
+  }
+  return arr.filter(Boolean);
+}
+
+destroyer([1, 2, 3, 1, 2, 3], 2, 3);  //[1, 1]
+destroyer([1, 2, 3, 5, 1, 2, 3], 2, 3);  //[1, 5, 1]
+destroyer([2, 3, 2, 3], 2, 3);  //[]
+destroyer(["tree", "hamburger", 53], "tree", 53);  //["hamburger"]
+		</code>
+	</pre>
+	<p><b>Code Explanation: </b>
+	  <ul>
+		<li>Create an array of arguments using Array.prototype.slice.call() and store it in the variable args. We’ll use this to check against arr.</li>
+		<li>Start a basic for loop to iterate through arr. Nest another for loop inside the first, changing the integer variable j and arr to args. This second loop will iterate through args.</li>
+		<li>Within the second loop create an if statement, checking strictly === that the current val of arr[i] is equal to args[j].</li>
+		<li>If the value at the current index is equal in both arrays, use delete to remove it from arr.</li>
+		<li>Outside of the nested loops: return the modified array using the Boolean object as a filter for any null's created by the delete operator.</li>
+	  </ul>
+	</p>
+	<br>
+
+
+	<p><b>+ solution:</b></p>
+	<pre>
+		<code>
+function destroyer(arr) {
+  var args = Array.from(arguments).slice(1);
+  return arr.filter(function(val) {
+    return !args.includes(val);
+  });
+}
+
+destroyer([1, 2, 3, 1, 2, 3], 2, 3);  //[1, 1]
+destroyer([1, 2, 3, 5, 1, 2, 3], 2, 3);  //[1, 5, 1]
+destroyer([2, 3, 2, 3], 2, 3);  //[]
+		</code>
+	</pre>
+	<p><b>Code Explanation: </b><br>
+		<ul>
+			<li>Declare a variable named args and set it equal to a new Array object from() the arguments passed into the function. On the same or next line, use the slice() method on args starting from the second index, 1. This separates the arguments used for filtering into their own array of args.</li>
+			<li>Return the filtered array, using includes() in the callback function to check if val is not in args; returning true to keep the value in the original array or false to remove it.</li>
+		</ul>
+	</p>
+	<br>
+
+
+	<figurecaption><h5>Where do I belong:</h5>
+		<p>Return the lowest index at which a value (second argument) should be inserted into an array (first argument) once it has been sorted. The returned value should be a number.<br>For example, getIndexToIns([1,2,3,4], 1.5) should return 1 because it is greater than 1 (index 0), but less than 2 (index 1).<br>Likewise, getIndexToIns([20,3,5], 19) should return 2 because once the array has been sorted it will look like [3,5,20] and 19 is less than 20 (index 2) and greater than 5 (index 1).</b></p>
+	</figurecaption>
+	<pre>
+		<code>
+function getIndexToIns(arr, num) {
+  
+    arr.push(num);
+    
+    arr.sort(function(a,b){
+        return a-b;
+    });
+  
+    return arr.indexOf(num);
+}
+
+getIndexToIns([40, 60], 50);  //1
+getIndexToIns([10, 20, 30, 40, 50], 30);  //2
+getIndexToIns([3, 10, 5], 3);  //0
+getIndexToIns([2, 5, 10], 15);  //3
+		</code>
+	</pre>
+	<p><b>Code Explanation: </b><br>
+		<ul>
+			<li>First we add the number num to the array using push() which adds it as the last element of the array.</li>
+			<li>Then we use sort() with the callback function function(a, b){return a-b} to sort the numbers in ascending order.</li>
+			<li>Lastly we return the postion or index of num in the array with the indexOf() function.</li>
+		</ul>
+	</p>
+	<br>
+
+
+	<figurecaption><h5>Ceasar's Cipher:</h5>
+		<p>One of the simplest and most widely known ciphers is a Caesar cipher, also known as a shift cipher. In a shift cipher the meanings of the letters are shifted by some set amount.<br>A common modern use is the ROT13 cipher, where the values of the letters are shifted by 13 places. Thus 'A' ↔ 'N', 'B' ↔ 'O' and so on.<br>Write a function which takes a ROT13 encoded string as input and returns a decoded string.<br>All letters will be uppercase. Do not transform any non-alphabetic character (i.e. spaces, punctuation), but do pass them on.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function rot13(str) {
+  // Split str into a character array
+  return str.split('')
+  // Iterate over each character in the array
+    .map.call(str, function(char) {
+      // Convert char to a character code
+      x = char.charCodeAt(0);
+      // Checks if character lies between A-Z
+      if (x < 65 || x > 90) {
+        return String.fromCharCode(x);  // Return un-converted character
+      }
+      //N = ASCII 78, if the character code is less than 78, shift forward 13 places
+      else if (x < 78) {
+        return String.fromCharCode(x + 13);
+      }
+      // Otherwise shift the character 13 places backward
+      return String.fromCharCode(x - 13);
+    }).join('');  // Rejoin the array into a string
+}
+
+rot13("SERR PBQR PNZC");  //"FREE CODE CAMP"
+rot13("SERR CVMMN!");  //"FREE PIZZA!"
+rot13("GUR DHVPX OEBJA QBT WHZCRQ BIRE GUR YNML SBK.");  //"THE QUICK BROWN DOG JUMPED OVER THE LAZY FOX."
+		</code>
+	</pre>
+	<br>
+
+
+	<p><b>+ solution:</b></p>
+	<pre>
+		<code>
+// Solution with Regular expression and Array of ASCII character codes
+function rot13(str) {
+  var rotCharArray = [];
+  var regEx = /[A-Z]/ ;
+  str = str.split("");
+  for (var x in str) {
+    if (regEx.test(str[x])) {
+      // A more general approach
+      // possible because of modular arithmetic
+      // and cyclic nature of rot13 transform
+      rotCharArray.push((str[x].charCodeAt() - 65 + 13) % 26 + 65);
+    } else {
+      rotCharArray.push(str[x].charCodeAt());
+    }
+  }
+  str = String.fromCharCode.apply(String, rotCharArray);
+  return str;
+}
+		</code>
+	</pre>
+	<p><b>Code Explanation: </b><br>
+		<ul>
+			<li>An empty array is created in a variable called <b>rotCharArray</b> to store the character codes.</li>
+			<li>The <b>regEx</b> variable stores a regular expression for all uppercase letters from A to Z.</li>
+			<li>We split <b>str</b> into a character array and then use a for loop to loop through each character in the array.</li>
+			<li>Using an if statement, we test to see if the string only contains uppercase letters from A to Z.</li>
+			<li>If it returns true, we use the <b>charCodeAt()</b> function and rot13 transformation to return the correct value, otherwise we return the initial value.</li>
+			<li>We then return the string with the character codes from the <b>rotCharArray</b> variable.</li>
+		</ul>
+	</p>
+	<br>
+
+
+	<p><b>Algorithm Explanation:</b></p>
+	<pre>
+		<code>
+ALPHA	KEY	BASE 	 	 	 ROTATED	ROT13
+-------------------------------------------------------------
+[A]     65  <=>   0 + 13  =>  13 % 26  <=>  13 + 65 = 78 [N]
+[B]     66  <=>   1 + 13  =>  14 % 26  <=>  14 + 65 = 79 [O]
+[C]     67  <=>   2 + 13  =>  15 % 26  <=>  15 + 65 = 80 [P]
+[D]     68  <=>   3 + 13  =>  16 % 26  <=>  16 + 65 = 81 [Q]
+[E]     69  <=>   4 + 13  =>  17 % 26  <=>  17 + 65 = 82 [R]
+[F]     70  <=>   5 + 13  =>  18 % 26  <=>  18 + 65 = 83 [S]
+[G]     71  <=>   6 + 13  =>  19 % 26  <=>  19 + 65 = 84 [T]
+[H]     72  <=>   7 + 13  =>  20 % 26  <=>  20 + 65 = 85 [U]
+[I]     73  <=>   8 + 13  =>  21 % 26  <=>  21 + 65 = 86 [V]
+[J]     74  <=>   9 + 13  =>  22 % 26  <=>  22 + 65 = 87 [W]
+[K]     75  <=>  10 + 13  =>  23 % 26  <=>  23 + 65 = 88 [X]
+[L]     76  <=>  11 + 13  =>  24 % 26  <=>  24 + 65 = 89 [Y]
+[M]     77  <=>  12 + 13  =>  25 % 26  <=>  25 + 65 = 90 [Z]
+[N]     78  <=>  13 + 13  =>  26 % 26  <=>   0 + 65 = 65 [A]
+[O]     79  <=>  14 + 13  =>  27 % 26  <=>   1 + 65 = 66 [B]
+[P]     80  <=>  15 + 13  =>  28 % 26  <=>   2 + 65 = 67 [C]
+[Q]     81  <=>  16 + 13  =>  29 % 26  <=>   3 + 65 = 68 [D]
+[R]     82  <=>  17 + 13  =>  30 % 26  <=>   4 + 65 = 69 [E]
+[S]     83  <=>  18 + 13  =>  31 % 26  <=>   5 + 65 = 70 [F]
+[T]     84  <=>  19 + 13  =>  32 % 26  <=>   6 + 65 = 71 [G]
+[U]     85  <=>  20 + 13  =>  33 % 26  <=>   7 + 65 = 72 [H]
+[V]     86  <=>  21 + 13  =>  34 % 26  <=>   8 + 65 = 73 [I]
+[W]     87  <=>  22 + 13  =>  35 % 26  <=>   9 + 65 = 74 [J]
+[X]     88  <=>  23 + 13  =>  36 % 26  <=>  10 + 65 = 75 [K]
+[Y]     89  <=>  24 + 13  =>  37 % 26  <=>  11 + 65 = 76 [L]
+[Z]     90  <=>  25 + 13  =>  38 % 26  <=>  12 + 65 = 77 [M]
+		</code>
+	</pre>
+
+
+	<p><b>+ solution:</b></p>
+	<pre>
+		<code>
+function rot13(str) { // LBH QVQ VG!
+  return str.replace(/[A-Z]/g, L => String.fromCharCode((L.charCodeAt(0) % 26) + 65));
+}
+		</code>
+	</pre>
+	<p><b>Code Explanation: </b><br>
+		<ul>
+			<li>Add here</li>
+		</ul>
+	</p>
+	<br>
+
+
+<h4>CODERBYTE "EASY" CHALLENGES SOLUTIONS:</h4>
+<br>
+
+
+	<figurecaption><h5>Longest Word</h5>
+		<p>Return the logest word in a sentence, ignore punctuation. To do list:
+			<ol>
+				<li>Strip away any punctuation because the challenge tells us to ignore these symbols, so the string "hello$%()" is actually just "hello"</li>
+				<li>Separate the sentence into a list of words in order to easily retrieve words and their respective lengths</li>
+				<li>Then loop through this list and compare the words to find the one with the longest length </li>
+			</ol>
+			We will be using <b>regular expression</b> functions in order to strip away punctuation and turn the string into a list of words. Regular expressions are patterns we define for the program to find in some text.
+		</p>
+	</figurecaption>
+	<pre>
+		<code>
+function LongestWord(sen) { 
+
+  var arr = sen.match(/[a-z0-9]+/gi);
+
+  var sorted = arr.sort(function(a, b) {
+    return b.length - a.length;
+  });
+
+  return sorted[0];
+         
+}
+   
+LongestWord("the $$$longest# word is coderbyte");                            
+		</code>
+	</pre>
+
+	<p><b>Code Explanation: </b><br>
+		<ul>
+			<li>We use the regex match function which searches the string for the pattern and returns an array of strings it finds in our case the pattern we define below returns words with only the characters a through z and 0 through 9, stripping away punctuation, e.g. "hello$% ##all" becomes [hello, all]</li>
+			<li>The array sort function takes a function as a parameter which is used to compare each element in the array to the next element in the array</li>
+			<li>This array now contains all the words in the original string but in order from longest to shortest length so we simply return the first element</li>
+		</ul>
+	</p>
+	<br>
+
+
+	<figurecaption><h5>Letter Changes:</h5>
+		<p>
+		  <ol>
+			<li>Replace every letter in the string with the letter following it in the alphabet (ie. c becomes d, z becomes a).</li>
+			<li>Then capitalize every vowel in this new string (a, e, i, o, u) and finally return this modified string.</li>
+		  </ol>
+		</p>
+	</figurecaption>
+	<pre>
+		<code>
+function LetterChanges(str) { 
+
+return str.split('')
+.map.call(str, function(char){
+	x = char.charCodeAt(0);
+
+	if (x < 122 && x >= 97){
+		return String.fromCharCode(x +1); //moves one letter down, a = b
+	}else if (x === 122){
+		return String.fromCharCode(x = 97);  //z is a 
+	}else {
+		return String.fromCharCode(x); //non a-z characters stays the same
+	}
+}).join('').replace(/[aeiou]/g, function(c){ //wil capitalize [aeiou]
+        return c.toUpperCase();
+    });;
+         
+}
+
+console.log(LetterChanges("hello*3")); //"Ifmmp*3"
+console.log(LetterChanges("fun times!"));  //"gvO Ujnft!"
+console.log(LetterChanges("z!"));  //a!
+console.log(LetterChanges("a!"));  //b!
+console.log(LetterChanges("b!"));  //c!                           
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Simple Adding:</h5>
+		<p>Add up all the numbers from 1 to num. For example: if the input is 4 then your program should return 10 because 1 + 2 + 3 + 4 = 10. For the test cases, the parameter num will be any number from 1 to 1000. 
+		</p>
+	</figurecaption>
+	<pre>
+		<code>
+function SimpleAdding(num) { 
+
+  for (a = 0; num >= 1; num--) { 
+	a = num + a; 
+ } 
+	return a; 
+} 
+
+console.log(SimpleAdding(12));
+console.log(SimpleAdding(140));                          
+		</code>
+	</pre>
+	<br>
+
+
+
+
 
 </figure>
-
 
 </div>
 
