@@ -989,11 +989,37 @@ console.log(AlphabetSoup("hooplah"));  //"ahhloop"
 
 
 
+<h4>FREECODECAMP "INTERMEDIATE":</h4>
+<br>
+
+
+	<figurecaption><h5>Sum All Numbers in a Range:</h5>
+		<p>Sort a string alphabetically.</p>
+	</figurecaption>
+	<pre>
+		<code>
+          
+		</code>
+	</pre>
+	<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <h4>FREECODECAMP "ADVANCED":</h4>
+<br>
 
-
-	<figurecaption><h5>Validate US Telephone Numbers:</h5>
+	<figurecaption><h5>Validate US Telephone Numbers: (my long version/efforts to solve)</h5>
 		<p>Return true if the passed string is a valid US phone number. The user may fill out the form field any way they choose as long as it is a valid US number. The following are examples of valid formats for US numbers (refer to the tests below for other variants):
 	</figurecaption>
 	<pre>
@@ -1010,11 +1036,114 @@ For this challenge you will be presented with a string such as 800-692-7753 or 8
 	</figurecaption>
 	<pre>
 		<code>
-          
+function telephoneCheck(str) {
+
+	var arr = str.split('');
+
+var number1 = parseInt(arr[0]);  //convets string to a number "1" to 1 (integer)
+
+var allowed = /(\(|\))|\d|\-|\s/gi;  //parenthesis, numbers, hyphen, space ALLOWED
+
+var regExp2 = /(\(|\))/gi;   //both parenthesis 
+
+var regExp3 = /[^0-9]/gi; //only numbers 
+
+//clean up the " " empty array elements object finction:
+Array.prototype.clean = function(deleteValue) {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] == deleteValue) {         
+      this.splice(i, 1);
+      i--;
+    }
+  }
+  return this;
+};
+
+if (arr[0] === "(" ||  Number.isInteger(number1)){  //starts with ( or number 
+	//console.log("valid number so far");
+	if (str.match(allowed).length === arr.length){  
+	//filters anything that is other that parenthesis, numbers, hyphen or space 
+	//if lengths don't match, it means arr has not allowed charcters, which makes it false
+	//console.log("allowed");
+		arr.clean(" ");  //using func above, clean up arr from " "
+		//console.log(arr);
+	  if (arr[0] === "(" && arr[4] === ")" || arr[1] === "(" && arr[5] === ")" || str.match(regExp2) == null){  
+		 //if have both parenthesis at indexes [0] && [4} or [1] && [5] or none
+		 	//console.log("has both parenthesis or none");
+		var matches = str.replace(regExp3, '');  //all non-numbers replace with '' nothing
+		//console.log(matches.length);
+		  if (matches.length === 10 || matches.length === 11 && matches[0] == 1){
+		 		console.log(true);
+		  }else {
+		 		console.log(false);
+		  }
+	  }else {
+		console.log(false);
+	  }
+	}else {
+	  console.log(false);
+	}	
+}else {
+	console.log(false);
+}
+
+}   
+
+telephoneCheck("555-555-5555"); //true
+telephoneCheck("1 555-555-5555"); //true
+telephoneCheck("1 (555) 555-5555");  //true  //both parenthesis
+telephoneCheck("5555555555");  //true
+telephoneCheck("(555)555-5555");  //true  //both parenthesis   0, 4 valid parenthesis position
+telephoneCheck("1(555)555-5555"); //true  //both parenthesis   1, 5 valid parenthesis position 
+
+telephoneCheck("555-5555");  //false
+telephoneCheck("5555555"); //false
+telephoneCheck("1 555)555-5555"); //false  !!! sorted 
+
+telephoneCheck("1 555 555 5555"); //true
+telephoneCheck("1 456 789 4444"); //true
+
+telephoneCheck("123**&!!asdf#"); //false
+telephoneCheck("55555555"); //false
+telephoneCheck("2 757 622-7382"); //false    !!! sorted
+telephoneCheck("10 (757) 622-7382"); //false  //both parenthesis
+
+telephoneCheck("(555)5(55?)-5555"); //false !!!  //both parenthesis
+telephoneCheck("(555-555-5555"); //false  !!!
+telephoneCheck("555)-555-5555");  //false !!!
+telephoneCheck("-1 (757) 622-7382");  //false !!!
+
+telephoneCheck("(6505552368)"); //false !!! tricky one       
+		</code>
+	</pre>
+	<p><b>Code Explanation:</b><br>
+		<ul>
+			<li><b>^</b> denotes the beginning of the string <b>(1\s?)?</b> checks allows for a “1” or a "1 " at the beginning.</li>
+			<li><b>\d{n}</b> checks for exactly n number of digits so <b>(\(\d{3}\)|\d{3})</b> checks for three digits that are allowed to be between parenthesis.</li>
+			<li><b>[\s\-]?</b> checks for spaces or dashes between the groups of digits.</li>
+			<li><b>$</b> denotes the end of the string. In this case the beginning and end of the string are used in the regex to prevent it from matching any longer string that might contain a valid phone number (eg. “s 555 555 5555 a”).</li>
+			<li>Lastly we use <b>regex.test(str)</b> to test if the string adheres to the regular expression and return <b>true</b> or <b>false.</b></li>
+		</ul>
+	</p>
+	<br>
+
+
+	<figurecaption><h5>+ original solution:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+function telephoneCheck(str) {
+   var regex = /^(1\s?)?(\(\d{3}\)|\d{3})[\s\-]?\d{3}[\s\-]?\d{4}$/;
+   return regex.test(str);
+}
+
+telephoneCheck("555-555-5555"); //true
+telephoneCheck("1 555-555-5555"); //true
+telephoneCheck("555)-555-5555");  //false 
+telephoneCheck("-1 (757) 622-7382");  //false             
 		</code>
 	</pre>
 	<br>
-
 
 
 
