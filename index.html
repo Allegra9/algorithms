@@ -994,14 +994,61 @@ console.log(AlphabetSoup("hooplah"));  //"ahhloop"
 
 
 	<figurecaption><h5>Sum All Numbers in a Range:</h5>
-		<p>Sort a string alphabetically.</p>
+		<p>We'll pass you an array of two numbers. Return the sum of those two numbers and all numbers between them. The lowest number will not always come first.</p>
 	</figurecaption>
 	<pre>
 		<code>
-          
+function sumAll(arr) {
+  var max = Math.max(arr[0], arr[1]);
+  var min = Math.min(arr[0], arr[1]);
+  var temp = 0;
+  for (var i=min; i <= max; i++){
+    temp += i;
+   }
+  return(temp);
+}
+
+sumAll([1, 4]);
+		</code>
+	</pre>
+	<p><b>Code Explanation:</b><br>
+		<ul>
+			<li>First create a variable to store the max number between two.</li>
+			<li>The same as before for the Smallest number.</li>
+			<li>We create a temporary variable to add the numbers.</li>
+			<li>Since the numbers might not be always in order, using max() and min() will help organize.</li>
+		</ul>
+	</p>
+	<br>
+
+
+	<figurecaption><h5>+ antother version::</h5>
+	</figurecaption>
+	<pre>
+		<code>
+function sumAll(arr) {
+    var list = [];
+
+    var lower = Math.min(arr[0], arr[1]);
+    var upper = Math.max(arr[0], arr[1]);
+
+    for (var i = lower; i <= upper; i++) {
+        list.push(i);
+    }
+    var total = list.reduce(function(a, b) {
+        return a + b;
+    });
+    console.log(total);
+}
+
+sumAll([1, 4]);
 		</code>
 	</pre>
 	<br>
+
+
+
+
 
 
 
@@ -1048,7 +1095,7 @@ var regExp2 = /(\(|\))/gi;   //both parenthesis
 
 var regExp3 = /[^0-9]/gi; //only numbers 
 
-//clean up the " " empty array elements object finction:
+//clean up the " " empty array elements object function:
 Array.prototype.clean = function(deleteValue) {
   for (var i = 0; i < this.length; i++) {
     if (this[i] == deleteValue) {         
@@ -1116,15 +1163,6 @@ telephoneCheck("-1 (757) 622-7382");  //false !!!
 telephoneCheck("(6505552368)"); //false !!! tricky one       
 		</code>
 	</pre>
-	<p><b>Code Explanation:</b><br>
-		<ul>
-			<li><b>^</b> denotes the beginning of the string <b>(1\s?)?</b> checks allows for a “1” or a "1 " at the beginning.</li>
-			<li><b>\d{n}</b> checks for exactly n number of digits so <b>(\(\d{3}\)|\d{3})</b> checks for three digits that are allowed to be between parenthesis.</li>
-			<li><b>[\s\-]?</b> checks for spaces or dashes between the groups of digits.</li>
-			<li><b>$</b> denotes the end of the string. In this case the beginning and end of the string are used in the regex to prevent it from matching any longer string that might contain a valid phone number (eg. “s 555 555 5555 a”).</li>
-			<li>Lastly we use <b>regex.test(str)</b> to test if the string adheres to the regular expression and return <b>true</b> or <b>false.</b></li>
-		</ul>
-	</p>
 	<br>
 
 
@@ -1143,7 +1181,17 @@ telephoneCheck("555)-555-5555");  //false
 telephoneCheck("-1 (757) 622-7382");  //false             
 		</code>
 	</pre>
+		<p><b>Code Explanation:</b><br>
+		<ul>
+			<li><b>^</b> denotes the beginning of the string <b>(1\s?)?</b> checks allows for a “1” or a "1 " at the beginning.</li>
+			<li><b>\d{n}</b> checks for exactly n number of digits so <b>(\(\d{3}\)|\d{3})</b> checks for three digits that are allowed to be between parenthesis.</li>
+			<li><b>[\s\-]?</b> checks for spaces or dashes between the groups of digits.</li>
+			<li><b>$</b> denotes the end of the string. In this case the beginning and end of the string are used in the regex to prevent it from matching any longer string that might contain a valid phone number (eg. “s 555 555 5555 a”).</li>
+			<li>Lastly we use <b>regex.test(str)</b> to test if the string adheres to the regular expression and return <b>true</b> or <b>false.</b></li>
+		</ul>
+	</p>
 	<br>
+
 
 
 
