@@ -25,6 +25,108 @@
 
 <h3 class="text-center">Algorithms</h3>
 
+<p><b>Map</b> works by taking a list and a function, and it applies the function to each element in the list and returns a new list. For example, you may want to square every number in an array or append a string to every element in an array. We want an implementation where we can pass in two parameters, one being the array and the second being some function that will be mapped onto every element.</p>
+<p><b>Filter</b> works by taking a list and a conditional statement, and it returns a new list where every element in the original list passes the conditional (returns true). For example, you may have a list of ages and you want a new list of ages where each one is between 21 and 35. We want an implementation where, similar to the map function, we pass in a list and a function that contains within it a conditional statement.</p>
+
+
+<figure>
+	<figurecaption><h5>Map example:</h5></figurecaption>
+	<pre>
+		<code>
+function map(arr, fn) { 
+  let result = [];
+
+// apply the function to each element and store the result
+  for (let i of arr) { 
+    let applied = fn(i); 
+    result.push(applied);
+  }
+  return result; 
+}
+
+let square = (x) => x * x;
+let addZeros = (x) => parseInt(x += '00');
+
+map([1, 2, 3, 4], square);    // [1, 4, 9, 16]
+map([1, 2, 3, 4], addZeros);   // [100, 200, 300, 400]
+		</code>
+	</pre>
+	<br>
+
+
+<figure>
+	<figurecaption><h5>Filter example:</h5></figurecaption>
+	<pre>
+		<code>
+function filter(arr, fn) { 
+  let result = [];
+
+// pass the element to the function and check 
+// if the result comes back true
+  for (let i of arr) {
+	let check = fn(i);
+	if (check) { 
+	  result.push(i); 
+	} 
+  }
+return result; 
+}
+
+let isPositive = (x) => x > 0;
+
+filter([-2, 4, 5, 8, -44, -6], isPositive);   // [4, 5, 8]
+		</code>
+	</pre>
+	<br>
+
+
+	<figure>
+	<figurecaption><h5>Filter arr to meet the func condition:</h5></figurecaption>
+	<pre>
+		<code>
+function findElement(arr, func) {
+  var num = 0;
+
+var result = arr.filter(func);
+  return result;
+}
+
+console.log(findElement([1, 2, 3, 4], function(num){ return num % 2 === 0; }));  //[2, 4]
+		</code>
+	</pre>
+	<br>
+
+
+	<figure>
+	<figurecaption><h5>Drop elements from an arr until they meet the func condition:</h5></figurecaption>
+	<pre>
+		<code>
+function dropElements(arr, func) {
+  
+  var times = arr.length;
+
+ for (var i = 0; i < times; i++) {
+    if (func(arr[0])) {
+      break;
+    } else {
+      arr.shift();
+    }
+  }
+  return arr;
+}
+
+console.log(dropElements([1, 2, 3, 4], function(n) {return n >= 4; }));  //4
+		</code>
+	</pre>
+	<br>
+
+
+
+
+
+<h4>FREECODECAMP "BASIC":</h4>
+<br>
+
 <figure>
 	<figurecaption><h5>Reverse a string:</h5></figurecaption>
 	<pre>
@@ -986,6 +1088,131 @@ console.log(AlphabetSoup("hooplah"));  //"ahhloop"
 		</code>
 	</pre>
 	<br>
+
+
+	<figurecaption><h5>Remove set of characters from a string:</h5>
+		<p> You are given an array of characters and a string. Write a function to return the string with all the characters of the array removed.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function removeChars(arr, string) {
+
+	var newArray = [];
+
+	string = string.split('');
+
+//remove array elements from a string array:
+  for (var i = 0; i < string.length; i++){
+	if (arr.indexOf(string[i]) === -1){
+		newArray.push(string[i]);
+	}
+  }
+  return newArray.join('');
+}
+
+console.log(removeChars(['h', 'e', 'w', 'o'], "hello world"));   // "ll rld"            
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Check if valid number of parenthesis:</h5>
+		<p> You are given a string with the symbols ( and ) and you need to write a function that will determine if the parenthsis are correctly nested in the string which means every opening ( has a closing )</p>
+	</figurecaption>
+	<pre>
+		<code>
+function matchingParens(string) {
+  let counter = 0;
+for (let c of string) {
+if (c === '(') { counter += 1; } 
+if (c === ')') { counter -= 1; }
+}
+return (counter === 0) ? true : false; }
+
+console.log(matchingParens("()()())"));  //false
+console.log(matchingParens("((()()))"));  //true
+console.log(matchingParens("()"));  //true
+console.log(matchingParens("(((("));  //false           
+		</code>
+	</pre>
+	<p><b>Code Explanation:</b><br>
+		<p>The first thing to notice is that it doesn’t matter how many parenthesis we actually have, what matters is that every single opening parenthsis “(“ at some point has a closing parenthesis “).” What we can do to solve this challenge is to maintain a counter and every single time we encounter an opening symbol we add 1 to it. Then every time we encounter a closing symbol we remove 1. If all opening symbols have a matching symbol at some point in the string, the end result of the counter should be 0. If it is more or less we’ll know that all parenthesis aren’t properly matched. You can see that for the first 4 examples above, if we maintain a counter we will end up at 0 once we reach the end of the string.</p>
+	</p>
+	<br>
+
+
+	<figurecaption><h5>Count words that have at least 3 continuous vowels:</h5>
+		<p>Loop through the string and maintain a counter. We are going to use a regular expression (regex) to count the vowels in a word and determine whether they are continuous. The solution below splits the string into an array of words and then loops through that array applying a regex search on each word. A regex search words by trying to find a search pattern within a string. The search pattern we will be using is to search for a set of characters, the vowels in this case, and check whether at least 3 of them occur next to each other.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function threeVowels(string) {
+// split string into array of words
+let arr = string.split(' '); 
+let count = 0;
+// this is the pattern we will be searching for:
+const pattern = /[aeiou]{3,}/gi;
+// loop through array of words
+ for (let word of arr) {
+  if (word.match(pattern) !== null) {
+  count += 1; }
+  }
+ return count; 
+}
+console.log(threeVowels("Naouitt"));  //1
+console.log(threeVowels("Naoutt"));  //1
+console.log(threeVowels("Naitt"));  //0
+console.log(threeVowels("Naiiittuuaar"));  //1          
+		</code>
+	</pre>
+	<br>
+
+
+
+	<figurecaption><h5>First on-repeating character in a string:</h5>
+		<p>Using <b>hash tables.</b>For this challenge you are given a string and you should return the first character that is unique in the entire string. For example, if string is “hello henry” then the first non-repeating character is the letter “o” because the first three characters in the string appear multiple times.</p>
+	</figurecaption>
+	<pre>
+		<code>
+function firstNonRep(string) { 
+	let hashTable = {};
+// store each character in the hash table with 
+//the frequency of times it occurs
+for (let c of string) {
+  if (hashTable[c] === undefined) { 
+	hashTable[c] = 1;
+  } else { 
+	hashTable[c] += 1;
+  } 
+}
+// loop through string and return the first character 
+// with a count of 1 in the hash table
+for (let c of string) {
+  if (hashTable[c] === 1) { 
+  	return c;
+  } 
+}
+// return -1 if no unique character exists
+return -1; 
+}
+
+console.log(firstNonRep("hello henry")); //o 
+console.log(firstNonRep("hellomi helom")); //i        
+		</code>
+	</pre>
+		<p><b>Code Explanation:</b><br>
+		We need to somehow store the letters and their frequencies in a data structure that’ll allow us to check how many times a specific character occurred. To solve this challenge, we’ll first loop through the string once and maintain a hash table that stores the count of each character. Then we’ll loop through the string again and return the first character we encounter that has a count of 1 in the hash table, meaning it occurs only once in the string. This algorithm will run in O(2n) because we are looping through the string twice, and this reduces to O(n) because we drop the constant, which is much faster than the nested loop algorithm.
+	</p>
+
+
+
+
+
+
+
+
+
+
 
 
 
