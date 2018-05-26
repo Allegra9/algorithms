@@ -1420,10 +1420,81 @@ telephoneCheck("-1 (757) 622-7382");  //false
 	<br>
 
 
+	<figurecaption><h5>DELI COUNTER <b>RUBY</b> version:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+def line(deli)
+  if deli.empty?
+    puts "The line is currently empty."
+  else
+    current_line = "The line is currently:"
+    deli.each.with_index(1) do |person, i|
+      current_line << " #{i}. #{person}"
+    end
+    puts current_line
+  end
+end
+
+def take_a_number(deli, name)
+  deli << name
+  puts "Welcome, #{name}. You are number #{deli.length} in line."
+end
+
+def now_serving(deli)
+  if deli.empty?
+    puts "There is nobody waiting to be served!"
+  else
+    puts "Currently serving #{deli.first}."
+    deli.shift
+  end
+end
+
+take_a_number(katz_deli, "Grace")   #Welcome, Grace. You are number 1 in line.
+take_a_number(katz_deli, "Edgar")   #Welcome, Edgar. You are number 2 in line.
+take_a_number(katz_deli, "Ada")     #Welcome, Ada. You are number 3 in line.
+line(katz_deli)     #The line is currently: 1. Grace 2. Edgar 3. Ada
+
+now_serving(katz_deli)   #Currently serving Grace
+line(katz_deli)          #The line is currently: 1. Edgar 2. Ada
+take_a_number(katz_deli, "Mimi")   #Welcome, Mimi. You are number 3 in line.
+
+now_serving(katz_deli)   #Currently serving Edgar
+now_serving(katz_deli)   #Currently serving Ada
+line(katz_deli)       #The line is currently: 1. Mimi
+
+now_serving(katz_deli)   #Currently serving Mimi
+line(katz_deli)       #The line is currently empty.
+		</code>
+	</pre>
 
 
+	<figurecaption><h5>OXFORD COMMA <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+def oxford_comma(array)
+  if array.size == 1
+    str = array.join    #simply converts one element to string
+    puts str
+  elsif array.size == 2
+    str = array.join " and "  #joins 2 elements with "and"
+    puts str
+  else  
+    last_element = array.pop   #takes the last element off
+    #puts last_element
+    str = array.insert(-1, "and ")   #inserts "and " at the end of an array
+    str = str.join ", "   #converts to a string with ","
+    str += last_element  #adds the last element to the end 
+    puts str
+  end
+end
 
-
+oxford_comma(["fiddleheads","okra","kohlrabi"])  #fiddleheads, okra, and kohlrabi
+oxford_comma(["kiwi", "durian"])  #kiwi and durian 
+oxford_comma(["kiwi"])   #kiwi 
+		</code>
+	</pre>
 
 </figure>
 
