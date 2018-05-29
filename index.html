@@ -1467,6 +1467,7 @@ now_serving(katz_deli)   #Currently serving Mimi
 line(katz_deli)       #The line is currently empty.
 		</code>
 	</pre>
+	<br>
 
 
 	<figurecaption><h5>OXFORD COMMA <b>RUBY</b> LAB:</h5>
@@ -1495,6 +1496,304 @@ oxford_comma(["kiwi", "durian"])  #kiwi and durian
 oxford_comma(["kiwi"])   #kiwi 
 		</code>
 	</pre>
+	<br>
+
+
+	<figurecaption><h5>REVERSE A STRING USING EACH VS COLLECT <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+#EACH:
+def reverse_each_word(str)
+  str = str.split 
+  new_str = []
+  str.each do |word|
+    word = word.reverse 
+    new_str << word
+  end
+  new_str.join " "
+end 
+
+#COLLECT:
+
+def reverse_each_word(sentence)
+  sentence.split.collect {|word| word.reverse}.join(" ")
+end
+
+reverse_each_word("Hello, how are you?")  #,olleH woh era ?uoy
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>EACH.WITH_INDEX <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+array = ["Doc", "Dopey", "Bashful", "Grumpy"]
+
+def roll_call_dwarves(array_of_dwarves)
+  list_of_dwarves = []
+  array_of_dwarves.each.with_index(1) do |dwarf, i|
+    list_of_dwarves << "#{i}. #{dwarf}"
+  end 
+  print list_of_dwarves
+end
+
+roll_call_dwarves(array)   #["1. Doc", "2. Dopey", "3. Bashful", "4. Grumpy"]
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>MAP <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+planeteer_calls = ["earth", "wind", "fire", "water", "heart"]
+
+def summon_captain_planet(planeteers)
+  planeteers.map do |planeteer|
+    planeteer = planeteer.capitalize + "!"
+  end
+end
+
+print summon_captain_planet(planeteer_calls)  #["Earth!", "Wind!", "Fire!", "Water!", "Heart!"]
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>ANY? <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+def long_planeteer_calls(calls)
+  calls.any? do |call|
+    call.size > 4   #or length 
+  end
+end
+
+short_words = ["puff", "go", "two"]
+puts long_planeteer_calls(short_words)
+#=> false
+ 
+assorted_words = ["two", "go", "industrious", "bop"]
+puts long_planeteer_calls(assorted_words)
+#=> true
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>INCLUDE? <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+def find_the_cheese(array)
+  cheese_types = ["cheddar", "gouda", "camembert"]
+  cheese_types.map do |cheese|
+  if array.include?(cheese)
+    return cheese
+  else 
+    return "it does not contain cheese!"
+  end
+ end
+end
+
+snacks = ["crackers", "gouda", "thyme"]
+puts find_the_cheese(snacks)
+#=> "gouda"
+
+soup = ["tomato soup", "cheddar", "oyster crackers", "gouda"]
+puts find_the_cheese(soup)
+#=> "cheddar"
+
+ingredients = ["garlic", "rosemary", "bread"]
+puts find_the_cheese(ingredients)
+#=> nil
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>YIELD AND BLOCKS <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+def hello_t(array)
+  if block_given?
+    i = 0 
+  
+    while i < array.size 
+    yield array[i]
+    i += 1 
+   end
+  array
+  else 
+  puts "Hey! No block was given!"
+end
+end
+
+hello_t(["Tim", "Tom", "Jim"])   #Hey! No block was given!
+
+hello_t(["Tim", "Tom", "Jim"]) do |name|
+  if name.start_with?("T")
+    puts "Hi, #{name}"    #Hi, Tim     Hi, Tom 
+  end
+end
+		</code>
+	</pre>
+		<p><b>Code Explanation:</b><br>
+We built our own implementation of the <b>#eachmethod</b>. We used <b>while</b> to iterate through each element of the array and passed, or yielded, each successive element to an accompanying block. That block used a parameter placeholder, <b>|name|</b>, to set a variable, <b>name</b>, equal to whatever value is yielded into the block at each step of the iteration. That block also contained code to execute with each yielded element in turn.
+	</p>
+	<br>
+
+
+	<figurecaption><h5>HOW YIELD WORKS: <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+def my_method
+  puts "reached the top"
+  yield
+  puts "reached the bottom"
+end
+
+my_method do
+  puts "reached yield"
+end
+
+reached the top
+reached yield
+reached the bottom
+ => nil
+		</code>
+	</pre>
+		<p><b>Code Explanation:</b><br>
+Passing blocks to methods
+A method doesn’t need to specify the block in it’s signature in order to receive a block parameter. You can just pass a block to any function but unless that function calls <b>yield</b>, the block won’t get executed.
+
+On the other hand, if you do call <b>yield</b> in your method, then the block parameter becomes mandatory and the method will raise an exception if it doesn’t receive a block.
+
+If you want to make the block an optional parameter, you can use the <b>block_given?</b> method which will return either true or false depending on if a block was passed in to the method or not.
+	</p>
+	<br>
+
+
+	<figurecaption><h5>MY_EACH METHOD (BUILT W YIELD): <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+def hello_t(array)
+  if block_given?
+    i = 0 
+  
+    while i < array.size 
+    yield array[i]
+    i += 1 
+   end
+  array
+  else 
+  puts "Hey! No block was given!"
+end
+end
+
+hello_t(["Tim", "Tom", "Jim"])   #Hey! No block was given!
+
+hello_t(["Tim", "Tom", "Jim"]) do |name|
+  if name.start_with?("T")
+    puts "Hi, #{name}"    #Hi, Tim     Hi, Tom 
+  end
+end
+
+#short version:
+
+def my_each(array)
+  i = 0 
+  while i < array.size 
+  yield array[i]
+  i += 1 
+end 
+  array
+end
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>MY_SELECT METHOD (manual, w YIELD): <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+def my_select(array)
+  i = 0
+  select = []
+  while i < array.length
+    if yield(array[i])
+      select << array[i]
+    end
+    i+=1
+  end
+  print select
+end
+
+array_nums = [3, 6, 7, 8, 9]
+my_select(array_nums) do |num|
+  num.even?      #[6, 8]
+end 
+#same as:
+my_select(array_nums) {|num| num.odd? }     #[3, 7, 9]
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>#SORT EXPLAINED: <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+array = [7, 3, 1, 2, 6, 5]
+ 
+print array.sort do |a, b|
+  if a == b
+    0
+  elsif a < b
+    -1
+  elsif a > b
+    1
+  end
+end
+#  => [1, 2, 3, 5, 6, 7]
+
+
+#ascending order:
+array = [7, 3, 1, 2, 6, 5]
+print array.sort { |a, b| a <=> b }
+#  => [1, 2, 3, 5, 6, 7]
+
+
+#descending order:
+array = [7, 3, 1, 2, 6, 5]
+puts array.sort { |a, b| b <=> a }   #[7, 6, 5, 3, 2, 1]
+#  => [1, 2, 3, 5, 6, 7] 
+
+
+#descending:
+dishes = ["steak", "apple pie", "vegetable soup"]
+print dishes.sort { |a, b| b <=> a }
+# => [vegetable soup", "steak", "apple pie"]
+
+
+#ascending:
+dishes = ["steak", "apple pie", "vegetable soup"]
+print dishes.sort
+		</code>
+	</pre>
+
+
+
+
 
 </figure>
 
