@@ -2004,10 +2004,10 @@ puts find_cool([{:name => "ashley", :temperature => "sort of cool"},
 	<pre>
 		<code>
 def organize_schools(schools)
-  organized_schools = {}
-  schools.each do |name, location_hash|
-    location = location_hash[:location]  #no implicit conversion of Symbol into Integer (TypeError)
-    if organized_schools[location]
+  organized_schools = {}   #empthy hash
+  schools.each do |name, location_hash|   #itaration
+    location = location_hash[:location]  
+    if organized_schools[location]      
       organized_schools[location] << name
     else
       organized_schools[location] = []
@@ -2051,10 +2051,476 @@ organize_schools({
 	<br>
 
 
-	<figurecaption><h5>   <b>RUBY</b> LAB:</h5>
+	<figurecaption><h5>Holiday supplies <b>RUBY</b> LAB:</h5>
 	</figurecaption>
 	<pre>
 		<code>
+holiday_supplies = {
+  :winter => {
+    :christmas => ["Lights", "Wreath"],
+    :new_years => ["Party Hats"]
+  },
+  :summer => {
+    :fourth_of_july => ["Fireworks", "BBQ"]
+  },
+  :fall => {
+    :thanksgiving => ["Turkey"]
+  },
+  :spring => {
+    :memorial_day => ["BBQ"]
+  }
+}
+
+#my solution:
+def add_supply_to_winter_holidays2(holiday_hash, supply)
+  # add the second argument, which is a supply, to BOTH the
+  # Christmas AND the New Year's arrays
+  holiday_hash.each do |season, data|
+    if season == :winter 
+      data.each do |key, value|
+        value << supply 
+      end 
+    end 
+  end 
+  #holiday_hash    #incl "Baloons" in both winter holidays now
+end
+
+add_supply_to_winter_holidays2(holiday_supplies, "Baloons")
+
+#original solution:
+def add_supply_to_winter_holidays(holiday_hash, supply)
+  holiday_hash[:winter].each do |holiday, supplies|
+    supplies << supply
+  end
+end
+
+#puts add_supply_to_winter_holidays(holiday_supplies, "Baloons")
+#output: 
+#{:christmas=>["Lights", "Wreath", "Baloons", "Baloons"], 
+# :new_years=>["Party Hats", "Baloons", "Baloons"]}
+
+
+
+#my solution:
+def add_supply_to_memorial_day2(holiday_hash, supply)
+  # add the second argument, which is a supply, to BOTH the
+  # Christmas AND the New Year's arrays
+  holiday_hash.each do |season, data|
+    if season == :spring 
+      data.each do |key, value|
+        if key == :memorial_day
+          value << supply 
+        end 
+      end 
+    end 
+  end 
+  #holiday_hash    #incl "Grill" to memorial_day values 
+  #print holiday_hash[:spring][:memorial_day]
+end
+
+#add_supply_to_memorial_day2(holiday_supplies, "Grill")
+
+#required solution:
+def add_supply_to_memorial_day(holiday_hash, supply)
+  # add the second argument, which is a supply, to BOTH the
+  # Christmas AND the New Year's arrays
+  holiday_hash[:spring][:memorial_day] << supply    #incl "Grill" to memorial_day values 
+  #print holiday_hash[:spring][:memorial_day]
+end
+
+print add_supply_to_memorial_day(holiday_supplies, "Grill")
+
+
+
+def all_winter_holiday_supplies(holiday_hash)
+  # return an array of all of the supplies that are used in the winter season
+  holiday_hash[:winter].values.flatten
+end
+
+all_winter_holiday_supplies(holiday_supplies)
+
+
+
+
+def all_supplies_in_holidays(holiday_hash)
+  holiday_hash.each do |season, holidays|
+    puts "#{season.capitalize}:"
+    holidays.each do |holiday, supplies|
+      puts"  #{holiday.to_s.split('_').map {|w| w.capitalize }.join(' ') }: #{supplies.join(", ")}"
+    end
+  end
+end
+
+all_supplies_in_holidays(holiday_supplies)
+#OUTPUT:
+# Winter:
+#   Christmas: Lights, Wreath, Baloons
+#   New Years: Party Hats, Baloons
+# Summer:
+#   Fourth Of July: Fireworks, BBQ
+# Fall:
+#   Thanksgiving: Turkey
+# Spring:
+#   Memorial Day: BBQ, Grill
+
+
+#my solution:
+def all_holidays_with_bbq(holiday_hash)
+  # return an array of holiday names (as symbols) where supply lists
+  # include the string "BBQ"
+  bbq_list = []
+  holiday_hash.each do |season, data|
+    data.each do |key, values|
+      if values.include?("BBQ")
+        bbq_list << key 
+      end 
+    end 
+  end 
+  print bbq_list
+end
+
+all_holidays_with_bbq(holiday_supplies)
+#OUTPUT:  [:fourth_of_july, :memorial_day]
+		</code>
+	</pre>
+	<br>
+
+
+	<figurecaption><h5>Twitter exercise: <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+tweet1 = "Hey guys, can anyone teach me how to be cool? I really want to be the best at everything, 
+you know what I mean? Tweeting is super fun you guys!!!!"
+
+tweet2 = "GUISEEEEE this is so fun! I'm tweeting for you guys and this tweet is SOOOO long it's gonna 
+be way more than you would think twitter can handle, so shorten it up you know what I mean? 
+I just can never tell how long to keep typing!"
+
+def dictionary
+  dictionary = {
+  "hello" => "hi",
+  "to" => "2",
+  "two" => "2",
+  "too" =>"2",
+  "for" => "4",
+  "four" => "4",
+  "be" => "b",
+  "you" => "u",
+  "at" => "@",
+  "and" => "&"
+}
+end 
+
+#uses dictionary to shorten the words in tweet:
+def word_substituter(tweet)
+  tweet.split.collect do |word|
+    if dictionary.keys.include?(word.downcase)
+      word = dictionary[word.downcase]
+    else
+      word
+    end
+  end.join(" ")
+end
+
+print word_substituter(tweet1)
+#output:
+#Hey guys, can anyone teach me how 2 b cool? I really want 2 b the best @ everything, 
+#u know what I mean? Tweeting is super fun u guys!!!!
+
+puts tweet1.size    #147
+
+#shortens an array of tweets:
+def bulk_tweet_shortener(tweets)
+    tweets.each do |tweet|
+    puts word_substituter(tweet)
+  end
+end
+
+#only shortens the tweets over 140 characters long:
+def selective_tweet_shortener(tweet)
+  if tweet.size > 140
+    word_substituter(tweet)
+  else 
+    tweet
+  end 
+end
+
+#truncates the tweet to 140 characters with an ellipsis (...) 
+#if it's still too long after substitution.    word_substituter(tweet).size > 140
+#shortens all the tweets to 137 + ... :
+def shortened_tweet_truncator(tweet)
+  if word_substituter(tweet).size > 140
+    word_substituter(tweet)[0..136] + '...'
+  else
+    tweet
+  end
+end
+
+print shortened_tweet_truncator(tweet2)
+#output:
+#GUISEEEEE this is so fun! I'm tweeting 4 u guys & this tweet is SOOOO long it's gonna b way more 
+#than u would think twitter can handle, s...
+		</code>
+	</pre>
+	<br>
+
+
+
+	<figurecaption><h5>HASHKETBALL: <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+#HASHKETBALL:
+
+def game_hash
+  {
+    home: {
+      team_name: "Brooklyn Nets",
+      colors: ["Black", "White"],
+      players: {
+        "Alan Anderson" => {
+          number: 0,
+          shoe: 16,
+          points: 22,
+          rebounds: 12,
+          assists: 12,
+          steals: 3,
+          blocks: 1,
+          slam_dunks: 1
+        },
+        "Reggie Evans" => {
+          number: 30,
+          shoe: 14,
+          points: 12,
+          rebounds: 12,
+          assists: 12,
+          steals: 12,
+          blocks: 12,
+          slam_dunks: 7
+        },
+        "Brook Lopez" => {
+          number: 11,
+          shoe: 17,
+          points: 17,
+          rebounds: 19,
+          assists: 10,
+          steals: 3,
+          blocks: 1,
+          slam_dunks: 15
+        },
+        "Mason Plumlee" => {
+          number: 1,
+          shoe: 19,
+          points: 26,
+          rebounds: 12,
+          assists: 6,
+          steals: 3,
+          blocks: 8,
+          slam_dunks: 5
+        },
+        "Jason Terry" => {
+          number: 31,
+          shoe: 15,
+          points: 19,
+          rebounds: 2,
+          assists: 2,
+          steals: 4,
+          blocks: 11,
+          slam_dunks: 1
+        }
+      }
+    },
+    away: {
+      team_name: "Charlotte Hornets",
+      colors: ["Turquoise", "Purple"],
+      players: {
+        "Jeff Adrien" => {
+          number: 4,
+          shoe: 18,
+          points: 10,
+          rebounds: 1,
+          assists: 1,
+          steals: 2,
+          blocks: 7,
+          slam_dunks: 2
+        },
+        "Bismak Biyombo" => {
+          number: 0,
+          shoe: 16,
+          points: 12,
+          rebounds: 4,
+          assists: 7,
+          steals: 7,
+          blocks: 15,
+          slam_dunks: 10
+        },
+        "DeSagna Diop" => {
+          number: 2,
+          shoe: 14,
+          points: 24,
+          rebounds: 12,
+          assists: 12,
+          steals: 4,
+          blocks: 5,
+          slam_dunks: 5
+        },
+        "Ben Gordon" => {
+          number: 8,
+          shoe: 15,
+          points: 33,
+          rebounds: 3,
+          assists: 2,
+          steals: 1,
+          blocks: 1,
+          slam_dunks: 0
+        },
+        "Brendan Haywood" => {
+          number: 33,
+          shoe: 15,
+          points: 6,
+          rebounds: 12,
+          assists: 12,
+          steals: 22,
+          blocks: 5,
+          slam_dunks: 12
+        }
+      }
+    }
+  }
+end
+
+puts "HERE WE GO:"
+
+# def home_team_name
+#   game_hash[:home][:team_name]
+# end
+ 
+#puts home_team_name
+# => "Brooklyn Nets"
+
+
+#returns player's points:
+def num_points_scored(player)
+  game_hash.each do |team, data|   #team = #home, away 
+    all_stats = data.fetch(:players)  #each player w info
+      all_stats.each do |player_name, stats|
+        if player == player_name
+          stats_array = stats.to_a    #[[:number, 30], [:shoe, 14], [:points, 12], [:rebounds, 12], [:assists, 12], [:steals, 12], [:blocks, 12], [:slam_dunks, 7]]
+          return stats_array[2][1]      #2 for points array, 1 for the actual points 
+        end
+      end 
+  end 
+end
+
+puts num_points_scored("Reggie Evans")   #12
+puts num_points_scored("Ben Gordon")   #33
+puts num_points_scored("Jeff Adrien")  #10
+
+
+#returs player's shoe size:
+def shoe_size(player)
+  game_hash.each do |team, data|   #team = #home, away 
+    all_stats = data.fetch(:players)  #each player w info
+      all_stats.each do |player_name, stats|
+        if player == player_name
+          stats_array = stats.to_a    #[[:number, 30], [:shoe, 14], [:points, 12], [:rebounds, 12], [:assists, 12], [:steals, 12], [:blocks, 12], [:slam_dunks, 7]]
+          return stats_array[1][1]      #2 for size array, 1 for the actual shoe_size 
+        end
+      end 
+  end 
+end 
+
+puts shoe_size("Reggie Evans")  #14
+puts shoe_size("Ben Gordon")    #15
+puts shoe_size("Jeff Adrien")   #18
+
+
+#returns the teams colors:
+def team_colors(team)
+  game_hash.each do |teams, data|   #team = #home, away 
+    if team == data.values[0]   #if team == :team_name 
+      return data.values[1]  #return the values of colors key
+    end 
+  end 
+end
+
+print team_colors("Brooklyn Nets")   #["Black", "White"]
+print team_colors("Charlotte Hornets")  #["Turquoise", "Purple"]
+print team_colors("Brooklyn Nets")  #["Black", "White"]
+
+
+#returns both teams names 
+def team_names
+  teams_array = []
+  game_hash.each do |teams, data|
+    teams = data.fetch(:team_name)
+    teams_array << teams
+  end 
+  teams_array
+end 
+
+print team_names  #["Brooklyn Nets", "Charlotte Hornets"]
+
+
+#return the whole teams jerney t-shirts numbers in an array:
+def player_numbers(team)
+  jersey_numbers = []
+    game_hash.each do |teams, data|   #team = #home, away 
+    if team == data.values[0]   #if team == :team_name 
+      data.values[2].each do |player, info|   #iterating thru player info
+        jersey_numbers << info.values[0]    #info.values[0] stand for player jersey numbers 
+      end 
+    end 
+  end 
+  jersey_numbers
+end 
+
+print player_numbers("Brooklyn Nets")   #[0, 30, 11, 1, 31]
+print player_numbers("Charlotte Hornets")  #[4, 0, 2, 8, 33]
+
+
+#returns player's stats info;
+def player_stats(player)
+    game_hash.each do |team, data|   #team = #home, away 
+    all_stats = data.fetch(:players)  #each player w info
+      all_stats.each do |player_name, stats|
+        if player == player_name 
+          return stats    #all the hash info on the player
+        end
+      end 
+  end 
+end 
+
+print player_stats("Alan Anderson")  
+#{:number=>0, :shoe=>16, :points=>22, :rebounds=>12, :assists=>12, :steals=>3, :blocks=>1, :slam_dunks=>1}
+
+print "***********"
+
+#finds a player w the biggest shoe size and returns the number of Rebounds for that player:
+def big_shoe_rebounds
+    shoe_sizes = []
+    game_hash.each do |teams, data|   #team = #home, away 
+      data.values[2].each do |player, info|   #iterating thru player info
+        #SORT BY info.values[1] stand for player shoes size, last is the biggest
+        player_w_biggest_shoes = data.values[2].sort_by{|playery, info| info.values[1] }.last
+        return player_w_biggest_shoes[1].values[3]   #Array[1] then hash, so values[3] for Rebounds 
+    end 
+  end 
+end 
+
+print big_shoe_rebounds   #12
+		</code>
+	</pre>
+	<br>
+
+
+
+	<figurecaption><h5>HASHKETBALL: <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+
 
 		</code>
 	</pre>
@@ -2063,11 +2529,19 @@ organize_schools({
 
 
 
+	<figurecaption><h5>HASHKETBALL: <b>RUBY</b> LAB:</h5>
+	</figurecaption>
+	<pre>
+		<code>
+
+
+		</code>
+	</pre>
+	<br>
 
 
 
-
-
+	
 
 </figure>
 
