@@ -2516,11 +2516,89 @@ print big_shoe_rebounds   #12
 
 
 
-	<figurecaption><h5>HASHKETBALL: <b>RUBY</b> LAB:</h5>
+	<figurecaption><h5>PIGEON ORGANIZER: <b>RUBY</b> LAB:</h5>
 	</figurecaption>
 	<pre>
 		<code>
+require 'pry'
 
+def nyc_pigeon_organizer(data)
+
+  pigeon_list = {}
+  data.each do |attribute_type, details|
+    # puts "we would have hit a pry here with the attribute #{attribute}!"
+    details.each do |attribute_name, pigeons|
+      pigeons.each do |pigeon|
+        pigeon_list[pigeon] ||= {}
+        pigeon_list[pigeon][attribute_type] ||= []
+        pigeon_list[pigeon][attribute_type] << attribute_name.to_s
+      end
+    end
+  end
+  pigeon_list
+end
+
+pigeon_data = {
+  :color => {
+    :purple => ["Theo", "Peter Jr.", "Lucky"],
+    :grey => ["Theo", "Peter Jr.", "Ms. K"],
+    :white => ["Queenie", "Andrew", "Ms. K", "Alex"],
+    :brown => ["Queenie", "Alex"]
+  },
+  :gender => {
+    :male => ["Alex", "Theo", "Peter Jr.", "Andrew", "Lucky"],
+    :female => ["Queenie", "Ms. K"]
+  },
+  :lives => {
+    "Subway" => ["Theo", "Queenie"],
+    "Central Park" => ["Alex", "Ms. K", "Lucky"],
+    "Library" => ["Peter Jr."],
+    "City Hall" => ["Andrew"]
+  }
+}
+
+print nyc_pigeon_organizer(pigeon_data)
+
+
+
+#OUTPUT:
+# pigeon_list = {
+#   "Theo"=>{
+#     :color=>["purple", "grey"], 
+#     :gender=>["male"], 
+#     :lives=>["Subway"]
+#   }, 
+#   "Peter Jr."=>{
+#     :color=>["purple", "grey"], 
+#     :gender=>["male"], 
+#     :lives=>["Library"]
+#   }, 
+#   "Lucky"=>{
+#     :color=>["purple"], 
+#     :gender=>["male"], 
+#     :lives=>["Central Park"]
+#   }, 
+#   "Ms. K"=>{
+#     :color=>["grey", "white"], 
+#     :gender=>["female"], 
+#     :lives=>["Central Park"]
+#   }, 
+#   "Queenie"=>{
+#     :color=>["white", "brown"], 
+#     :gender=>["female"], 
+#     :lives=>["Subway"]
+#   }, 
+#   "Andrew"=>{
+#     :color=>["white"], 
+#     :gender=>["male"], 
+#     :lives=>["City Hall"]
+#   }, 
+#   "Alex"=>{
+#     :color=>["white", "brown"], 
+#     :gender=>["male"], 
+#     :lives=>["Central Park"]
+#   }
+# }
 
 		</code>
 	</pre>
@@ -2541,7 +2619,7 @@ print big_shoe_rebounds   #12
 
 
 
-	
+
 
 </figure>
 
